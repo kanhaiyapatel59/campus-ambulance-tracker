@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.campus.safety.ambulancetracker.model.EmergencyRequest;
 import com.campus.safety.ambulancetracker.service.EmergencyRequestService;
+
+import java.time.LocalDateTime;
 import java.util.List;
+import com.campus.safety.ambulancetracker.model.AmbulanceStatus;
 
 @Controller
 public class WebController {
@@ -111,5 +114,58 @@ public class WebController {
             // Redirect back with an error if request not found
             return "redirect:/requests/active?error=" + e.getMessage();
         }
+    }
+
+    /**
+     * Displays the Ambulance Management view (list and add form).
+     */
+    @GetMapping("/ambulances/manage")
+    public String manageAmbulances(Model model) {
+        // List of all ambulances for the table
+        model.addAttribute("ambulances", ambulanceService.findAll()); 
+        // Blank ambulance object for the 'Add New' form
+        model.addAttribute("newAmbulance", new Ambulance()); 
+        // List of all possible statuses for the update form dropdowns
+        model.addAttribute("allStatuses", AmbulanceStatus.values()); 
+        return "ambulance-management"; // Renders src/main/resources/templates/ambulance-management.html
+    }
+    
+    /**
+     * Handles submission for adding a new ambulance to the fleet.
+     */
+    @PostMapping("/ambulances/add")
+    public String addAmbulance(@ModelAttribute("newAmbulance") Ambulance ambulance) {
+        // Set initial status to AVAILABLE and current time
+        ambulance.setStatus(AmbulanceStatus.AVAILABLE);
+        ambulance.setLastUpdated(LocalDateTime.now());
+        // Set an initial location (e.g., default base coordinates)
+        ambulance.setLatitude(12.9716); 
+        ambulance.setLongitude(77.5946);
+        
+        ambulanceService.save(ambulance); // Assuming you have a save method in service
+        return "redirect:/ambulances/manage?status=added";
+    }
+
+    /**
+     * Handles submission for updating the status of an existing ambulance.
+     */
+    @PostMapping("/ambulances/{id}/update-status")
+    public String updateAmbulanceStatus(
+            @PathVariable Long id, 
+            @RequestParam AmbulanceStatus newStatus) {
+        
+        // This leverages the existing updateStatusAndLocation method
+        // We assume latitude/longitude remain unchanged for a simple status change
+        Ambulance ambulance = ambulanceService.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Ambulance not found."));
+            
+        ambulanceService.updateStatusAndLocation(
+            id, 
+            newStatus, 
+            ambulance.getLatitude(), 
+            ambulance.getLongitude()
+        );
+
+        return "redirect:/ambulances/manage?status=updated";
     }
 }

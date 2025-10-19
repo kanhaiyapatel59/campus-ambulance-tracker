@@ -55,4 +55,11 @@ public class AmbulanceService {
     public Optional<Ambulance> findById(Long ambulanceId) {
         return ambulanceRepository.findById(ambulanceId);
     }
+
+    /**
+     * Saves a new ambulance or updates an existing one. (Needed for management)
+     */
+    public Ambulance save(Ambulance ambulance) {
+        return ambulanceRepository.save(ambulance);
+    }
 }

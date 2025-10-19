@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ambulance Fleet Management</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; }
+        .container { width: 90%; margin: 20px auto; }
+        h1 { color: #007bff; margin-bottom: 20px; }
+        h2 { border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-top: 30px; }
+        .success-msg { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 10px; border-radius: 5px; font-weight: bold; margin-bottom: 15px; }
+        
+        /* Table Styling */
+        .management-table { width: 100%; border-collapse: collapse; margin-top: 15px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .management-table th, .management-table td { border: 1px solid #dee2e6; padding: 10px; text-align: left; }
+        .management-table th { background-color: #e9ecef; }
+        
+        /* Form Styling (Add New Ambulance) */
+        .add-form { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 600px; margin-bottom: 30px;}
+        .add-form label { display: block; margin-top: 10px; font-weight: bold; }
+        .add-form input { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;}
+        .add-form button { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+        
+        /* Status Update Form Styling */
+        .status-form select, .status-form button { padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
+        .status-form button { background-color: #ffc107; color: #343a40; border-color: #ffc107; cursor: pointer; margin-left: 5px; }
+        .status-form button:hover { background-color: #e0a800; }
+    </style>
+</head>
+<body>
+    <div th:replace="~{fragments :: navbar}"></div>
+
+    <div class="container">
+        <h1>Ambulance Fleet Management</h1>
+        
+        <div th:if="${param.status == 'added'}" class="success-msg">
+            New ambulance successfully added!
+        </div>
+        <div th:if="${param.status == 'updated'}" class="success-msg">
+            Ambulance status successfully updated!
+        </div>
+
+        <h2>Add New Ambulance to Fleet</h2>
+        <div class="add-form">
+            <form th:action="@{/ambulances/add}" th:object="${newAmbulance}" method="post">
+                <label for="vehicleNo">Vehicle Number (Unique):</label>
+                <input type="text" id="vehicleNo" th:field="*{vehicleNo}" required>
+                
+                <label for="driverName">Driver Name:</label>
+                <input type="text" id="driverName" th:field="*{driverName}" required>
+                
+                <label for="contactNo">Contact Number:</label>
+                <input type="text" id="contactNo" th:field="*{contactNo}" required>
+
+                <button type="submit">Register Ambulance</button>
+            </form>
+        </div>
+
+        <h2>Manage Existing Ambulance Statuses</h2>
+        <table class="management-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vehicle No.</th>
+                    <th>Driver</th>
+                    <th>Current Status</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ambulance : ${ambulances}">
+                    <td th:text="${ambulance.id}">1</td>
+                    <td th:text="${ambulance.vehicleNo}">KA01MT9988</td>
+                    <td th:text="${ambulance.driverName}">Ravi Kumar</td>
+                    <td th:text="${ambulance.status}" th:style="${ambulance.status.name() == 'AVAILABLE' ? 'color: green; font-weight: bold;' : ambulance.status.name() == 'OUT_OF_SERVICE' ? 'color: red; font-weight: bold;' : 'color: orange; font-weight: bold;'}">AVAILABLE</td>
+                    <td>
+                        <form th:action="@{/ambulances/{id}/update-status(id=${ambulance.id})}" method="post" class="status-form">
+                            <select name="newStatus" required>
+                                <option th:each="status : ${allStatuses}"
+                                        th:value="${status}"
+                                        th:text="${status}"
+                                        th:selected="${status == ambulance.status}"></option>
+                            </select>
+                            <button type="submit">Change</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

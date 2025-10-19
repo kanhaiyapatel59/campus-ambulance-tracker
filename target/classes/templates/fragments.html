@@ -39,6 +39,7 @@
         }
     </style>
     
+<div th:fragment="navbar" class="navbar-container">
     <div class="navbar-logo">
         <a th:href="@{/}">Ambulance Tracker</a>
     </div>
@@ -47,10 +48,11 @@
         <a th:href="@{/}" title="Main Dashboard for Ambulance Status">Dashboard</a>
         <a th:href="@{/requests/active}" title="View and Complete Active/Pending Emergencies">Active Requests</a>
         <a th:href="@{/request/new}" title="Submit a New Emergency Call">New Request</a>
+        <a th:href="@{/ambulances/manage}" title="Add and manage ambulance fleet status">Fleet Management</a>
         <a th:href="@{/register}" title="Register a new campus user/security staff">Register User</a>
-        <!-- Add a quick link to the raw API for tech testing -->
         <a th:href="@{/api/ambulances}" title="Raw JSON API Endpoint" target="_blank">API Data</a>
     </div>
+</div>
 </div>
 
 </body>
