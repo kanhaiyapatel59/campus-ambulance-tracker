@@ -2,3 +2,6 @@
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/model/Ambulance.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/model/EmergencyRequest.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/model/User.java
+/Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/repository/AmbulanceRepository.java
+/Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/repository/EmergencyRequestRepository.java
+/Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/repository/UserRepository.java
