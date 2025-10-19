@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ambulance Tracker Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #cc0000; }
+        .ambulance-table { width: 80%; border-collapse: collapse; margin-top: 20px; }
+        .ambulance-table th, .ambulance-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .AVAILABLE { background-color: #d4edda; color: #155724; }
+        .EN_ROUTE { background-color: #fff3cd; color: #856404; }
+        .ON_SCENE { background-color: #f8d7da; color: #721c24; }
+        a { margin-right: 15px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1>Campus Ambulance Tracker Operational Dashboard</h1>
+    
+    <p>
+        <a href="/register">Register New User</a> |
+        <a href="/api/ambulances">View Raw Ambulance API</a>
+    </p>
+
+    <h2>Ambulance Status</h2>
+    <table class="ambulance-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vehicle No.</th>
+                <th>Driver</th>
+                <th>Contact</th>
+                <th>Status</th>
+                <th>Last Update</th>
+                <th>Location (Lat/Lng)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ambulance : ${ambulances}" th:class="${ambulance.status}">
+                <td th:text="${ambulance.id}">1</td>
+                <td th:text="${ambulance.vehicleNo}">KA01N1234</td>
+                <td th:text="${ambulance.driverName}">John Doe</td>
+                <td th:text="${ambulance.contactNo}">+919876543210</td>
+                <td th:text="${ambulance.status}">AVAILABLE</td>
+                <td th:text="${#temporals.format(ambulance.lastUpdated, 'HH:mm:ss dd-MMM')}">20:00:00</td>
+                <td th:text="${ambulance.latitude} + ' / ' + ${ambulance.longitude}">12.97 / 77.59</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <p th:if="${ambulances.empty}">No ambulances registered yet. Use the API to add one.</p>
+
+</body>
+</html>

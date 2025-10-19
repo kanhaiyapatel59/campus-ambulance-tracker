@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime; // NEW IMPORT
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AmbulanceService {
@@ -15,6 +16,10 @@ public class AmbulanceService {
 
     public AmbulanceService(AmbulanceRepository ambulanceRepository) {
         this.ambulanceRepository = ambulanceRepository;
+    }
+
+    public List<Ambulance> findAll() {
+        return ambulanceRepository.findAll();
     }
 
     /**
@@ -31,19 +36,23 @@ public class AmbulanceService {
      */
     @Transactional
     public Ambulance updateStatusAndLocation(Long ambulanceId, AmbulanceStatus status, Double latitude, Double longitude) {
-        Ambulance ambulance = ambulanceRepository.findById(ambulanceId)
-                // FIX: Primary key is now 'id'
-                .orElseThrow(() -> new IllegalArgumentException("Ambulance not found with ID: " + ambulanceId));
-
-        // Status validation is implicit due to the AmbulanceStatus type, no need for manual List check.
+        // ... implementation ...
+        Optional<Ambulance> ambulanceOptional = ambulanceRepository.findById(ambulanceId);
+        if (ambulanceOptional.isEmpty()) {
+            throw new IllegalArgumentException("Ambulance not found with ID: " + ambulanceId);
+        }
+        
+        Ambulance ambulance = ambulanceOptional.get();
 
         ambulance.setStatus(status);
-        
-        // FIX: Set latitude and longitude instead of location string
         ambulance.setLatitude(latitude);
         ambulance.setLongitude(longitude);
-        ambulance.setLastUpdated(LocalDateTime.now()); // Record the update time
+        ambulance.setLastUpdated(LocalDateTime.now());
         
         return ambulanceRepository.save(ambulance);
+    }
+
+    public Optional<Ambulance> findById(Long ambulanceId) {
+        return ambulanceRepository.findById(ambulanceId);
     }
 }
