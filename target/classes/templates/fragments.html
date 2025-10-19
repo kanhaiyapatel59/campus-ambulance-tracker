@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<!-- Define the Navigation Bar fragment -->
+<div th:fragment="navbar" class="navbar-container">
+    <style>
+        .navbar-container {
+            background-color: #343a40; /* Dark background */
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-logo a {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            text-shadow: 1px 1px 2px #000;
+        }
+        .navbar-links a {
+            color: #adb5bd; /* Light gray text */
+            margin-left: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .navbar-links a:hover {
+            background-color: #495057; /* Slightly lighter background on hover */
+            color: #fff;
+        }
+    </style>
+    
+    <div class="navbar-logo">
+        <a th:href="@{/}">Ambulance Tracker</a>
+    </div>
+
+    <div class="navbar-links">
+        <a th:href="@{/}" title="Main Dashboard for Ambulance Status">Dashboard</a>
+        <a th:href="@{/requests/active}" title="View and Complete Active/Pending Emergencies">Active Requests</a>
+        <a th:href="@{/request/new}" title="Submit a New Emergency Call">New Request</a>
+        <a th:href="@{/register}" title="Register a new campus user/security staff">Register User</a>
+        <!-- Add a quick link to the raw API for tech testing -->
+        <a th:href="@{/api/ambulances}" title="Raw JSON API Endpoint" target="_blank">API Data</a>
+    </div>
+</div>
+
+</body>
+</html>
