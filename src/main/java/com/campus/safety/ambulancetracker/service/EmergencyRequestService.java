@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmergencyRequestService {
@@ -88,22 +89,65 @@ public class EmergencyRequestService {
         EmergencyRequest request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("Request not found with ID: " + requestId));
 
-        if (!request.getStatus().equals("COMPLETED") && request.getAmbulance() != null) {
+        Ambulance completedAmbulance = request.getAmbulance();
+
+        if (!request.getStatus().equals("COMPLETED") && completedAmbulance != null) {
             // 1. Mark the request as completed
             request.setStatus("COMPLETED");
-            // Note: Assuming setEndTime is a method you will define on EmergencyRequest
-            // request.setEndTime(LocalDateTime.now()); 
+            request.setEndTime(LocalDateTime.now());
             
             // 2. Mark the assigned ambulance as available again at the base location
-            // FIX: Changed parameter to AmbulanceStatus.AVAILABLE and passed BASE coordinates
             ambulanceService.updateStatusAndLocation(
-                request.getAmbulance().getId(), // FIX: Used getId() instead of getAmbulanceId()
+                completedAmbulance.getId(), 
                 AmbulanceStatus.AVAILABLE, 
                 BASE_LATITUDE, 
                 BASE_LONGITUDE
             );
+            
+            // 3. CRUCIAL NEW STEP: Immediately check for and assign the oldest PENDING request
+            assignPendingRequest(completedAmbulance);
         }
         
         return requestRepository.save(request);
+    }
+
+    /**
+     * Finds emergency requests based on their status (e.g., PENDING, ASSIGNED).
+     */
+    public List<EmergencyRequest> findRequestsByStatus(String status) {
+        return requestRepository.findByStatus(status);
+    }
+
+    /**
+     * Finds the oldest PENDING request and assigns the newly available ambulance to it.
+     * This method is called after an ambulance returns to AVAILABLE status.
+     * @param availableAmbulance The ambulance that just returned to base.
+     */
+    private void assignPendingRequest(Ambulance availableAmbulance) {
+        // Find the oldest PENDING request (FIFO - First In, First Out)
+        Optional<EmergencyRequest> pendingRequestOpt = 
+            requestRepository.findTopByStatusOrderByRequestTimeAsc("PENDING");
+
+        if (pendingRequestOpt.isPresent()) {
+            EmergencyRequest pendingRequest = pendingRequestOpt.get();
+            
+            // 1. Update the PENDING request with the newly available ambulance
+            pendingRequest.setAmbulance(availableAmbulance);
+            pendingRequest.setStatus("ASSIGNED");
+            pendingRequest.setStartTime(LocalDateTime.now()); 
+            requestRepository.save(pendingRequest);
+
+            // 2. Update the now-assigned ambulance's status to EN_ROUTE
+            // The location will be the base location set just moments ago in completeRequest.
+            ambulanceService.updateStatusAndLocation(
+                availableAmbulance.getId(), 
+                AmbulanceStatus.EN_ROUTE, 
+                availableAmbulance.getLatitude(), 
+                availableAmbulance.getLongitude()
+            );
+
+            System.out.println(">>> PENDING request ID " + pendingRequest.getId() + 
+                               " auto-assigned to ambulance " + availableAmbulance.getVehicleNo() + " <<<");
+        }
     }
 }

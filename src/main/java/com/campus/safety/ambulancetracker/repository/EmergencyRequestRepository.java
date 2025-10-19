@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EmergencyRequestRepository extends JpaRepository<EmergencyRequest, Long> {
@@ -14,4 +15,7 @@ public interface EmergencyRequestRepository extends JpaRepository<EmergencyReque
     
     // Find requests assigned to a specific ambulance ID
     List<EmergencyRequest> findByAmbulanceId(Long ambulanceId);
+
+    // NEW METHOD: Finds the oldest PENDING request (based on requestTime)
+    Optional<EmergencyRequest> findTopByStatusOrderByRequestTimeAsc(String status);
 }
