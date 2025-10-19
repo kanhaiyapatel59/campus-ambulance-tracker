@@ -4,37 +4,34 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.time.LocalDateTime;
 
-@Entity // Marks this class as a JPA entity, mapped to a database table
-@Table(name = "users") // Explicitly names the database table
-@Data // Lombok: Generates getters, setters, toString, equals, and hashCode
-@NoArgsConstructor // Lombok: Generates a constructor with no arguments (required by JPA)
-@AllArgsConstructor // Lombok: Generates a constructor with all arguments
+@Entity
+@Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
-    @Id // Designates this field as the Primary Key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Configures ID to be auto-incremented by MySQL
-    private Long userId;
-
-    @Column(nullable = false, length = 100)
-    private String name;
-
-    @Column(nullable = false, unique = true, length = 100) // Constraint: Email must be unique
-    private String email;
-
-    @Column(nullable = false, length = 15)
-    private String contactNo;
-
-    @Column(nullable = false, length = 20)
-    private String role; // e.g., "STUDENT", "STAFF", "ADMIN"
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime joinDate;
+    private String firstName;
 
-    // JPA Relationship: One user can make many emergency requests (One-to-Many).
-    // The 'mappedBy' attribute indicates the field in the 'EmergencyRequest' entity 
-    // that owns the relationship (the foreign key).
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false, unique = true)
+    private String contactNumber;
+
+    // Role (e.g., STUDENT, STAFF, SECURITY)
+    @Column(nullable = false, length = 20)
+    private String role; 
+
+    // JPA Relationship: One user can make many requests
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private java.util.List<EmergencyRequest> emergencyRequests;
+    private java.util.List<EmergencyRequest> emergencyRequests; 
 }

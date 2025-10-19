@@ -15,33 +15,38 @@ public class EmergencyRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long requestId;
+    private Long id;
 
-    // Relationship: Many requests belong to one User (Many-to-One)
+    // RELATIONSHIP: The user who initiated the request
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false) // Defines the Foreign Key column name
+    @JoinColumn(name = "user_id", nullable = false) 
     private User user;
 
-    // Relationship: Many requests can be handled by one Ambulance (Many-to-One)
-    // Ambulance can be null if the request hasn't been assigned yet.
+    // RELATIONSHIP: Ambulance assigned to the request
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ambulance_id")
-    private Ambulance ambulance;
+    @JoinColumn(name = "ambulance_id") // Can be null if PENDING
+    private Ambulance ambulance; 
 
-    @Column(nullable = false)
-    private LocalDateTime requestTime;
-
-    private LocalDateTime startTime; // When the ambulance begins the trip
+    // DETAILS: Fields used by saveNewRequest
+    @Column(name = "patient_details")
+    private String patientDetails; 
     
-    private LocalDateTime endTime; // When the request is closed/completed
+    @Column(name = "destination")
+    private String destination;
 
-    // Status: e.g., "PENDING", "ASSIGNED", "EN_ROUTE", "COMPLETED", "CANCELLED"
-    @Column(nullable = false, length = 30)
-    private String status;
+    // TIMESTAMPS: Fields used in the service logic
+    @Column(name = "request_time", nullable = false)
+    private LocalDateTime requestTime; 
 
-    @Column(nullable = false)
-    private String patientDetails; // Brief patient description and complaint
+    @Column(name = "start_time")
+    private LocalDateTime startTime; // When ambulance was assigned/dispatched
 
-    @Column(nullable = false)
-    private String destination; // Where the patient needs to be taken (e.g., Hospital X)
+    @Column(name = "end_time")
+    private LocalDateTime endTime; // When the request was completed
+
+    @Column(name = "status", nullable = false, length = 30)
+    private String status; // e.g., "PENDING", "ASSIGNED", "COMPLETED"
+
+    @Column(name = "priority", length = 20)
+    private String priority; // e.g., "HIGH", "MEDIUM"
 }
