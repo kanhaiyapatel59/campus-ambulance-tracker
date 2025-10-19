@@ -9,16 +9,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.campus.safety.ambulancetracker.model.EmergencyRequest;
+import com.campus.safety.ambulancetracker.service.EmergencyRequestService;
 
 @Controller
 public class WebController {
 
+    private final EmergencyRequestService requestService; 
     private final AmbulanceService ambulanceService;
     private final UserService userService;
 
-    public WebController(AmbulanceService ambulanceService, UserService userService) {
+    public WebController(AmbulanceService ambulanceService, UserService userService, EmergencyRequestService requestService) {
         this.ambulanceService = ambulanceService;
         this.userService = userService;
+        this.requestService = requestService;
     }
 
     // Displays the main operational dashboard
@@ -41,5 +47,36 @@ public class WebController {
     public String registerUser(@ModelAttribute User user) {
         userService.save(user);
         return "redirect:/"; // Redirects back to the dashboard after successful registration
+    }
+
+    /**
+     * Shows the form to create a new emergency request.
+     */
+    @GetMapping("/request/new")
+    public String showNewRequestForm(Model model) {
+        model.addAttribute("emergencyRequest", new EmergencyRequest());
+        // Pass all existing users for simple dropdown selection (for testing)
+        model.addAttribute("users", userService.findAll()); 
+        return "request-form"; // Renders src/main/resources/templates/request-form.html
+    }
+
+    /**
+     * Handles the form submission to create and assign an ambulance request.
+     */
+    @PostMapping("/request/new")
+    public String submitNewRequest(@ModelAttribute EmergencyRequest request, @RequestParam Long requesterId) {
+        try {
+            // Call the core service logic
+            requestService.createAndAssignRequest(
+                requesterId, 
+                request.getPatientDetails(), 
+                request.getDestination()
+            );
+            // Redirect to dashboard with success message (or just the dashboard)
+            return "redirect:/?success=request_assigned"; 
+        } catch (IllegalArgumentException e) {
+            // Handle error, e.g., redirect back to form with error message
+            return "redirect:/request/new?error=" + e.getMessage();
+        }
     }
 }
