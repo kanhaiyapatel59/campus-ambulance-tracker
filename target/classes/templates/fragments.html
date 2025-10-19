@@ -2,10 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>Fragments - Navbar</title>
 </head>
 <body>
 
-<!-- Define the Navigation Bar fragment -->
+<!-- ✅ Define the Navigation Bar fragment -->
 <div th:fragment="navbar" class="navbar-container">
     <style>
         .navbar-container {
@@ -39,7 +40,6 @@
         }
     </style>
     
-<div th:fragment="navbar" class="navbar-container">
     <div class="navbar-logo">
         <a th:href="@{/}">Ambulance Tracker</a>
     </div>
@@ -49,10 +49,11 @@
         <a th:href="@{/requests/active}" title="View and Complete Active/Pending Emergencies">Active Requests</a>
         <a th:href="@{/request/new}" title="Submit a New Emergency Call">New Request</a>
         <a th:href="@{/ambulances/manage}" title="Add and manage ambulance fleet status">Fleet Management</a>
+        <!-- ✅ Proper Reports Page Link -->
+        <a th:href="@{/reports}" title="View Operational Metrics and Analytics">Reports</a>
         <a th:href="@{/register}" title="Register a new campus user/security staff">Register User</a>
         <a th:href="@{/api/ambulances}" title="Raw JSON API Endpoint" target="_blank">API Data</a>
     </div>
-</div>
 </div>
 
 </body>

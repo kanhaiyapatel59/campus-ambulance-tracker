@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Operational Reports and Analytics</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f7f6; }
+        .container { width: 90%; max-width: 1200px; margin: 20px auto; }
+        h1 { color: #007bff; border-bottom: 3px solid #007bff; padding-bottom: 10px; margin-bottom: 30px; }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .kpi-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            text-align: center;
+        }
+        .kpi-card h2 {
+            font-size: 16px;
+            color: #6c757d;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .kpi-card .value {
+            font-size: 48px;
+            font-weight: bold;
+            color: #343a40;
+            margin-top: 5px;
+        }
+        .kpi-card.total { background-color: #e9f5fe; border-left: 5px solid #007bff; }
+        .kpi-card.completed { background-color: #e6ffed; border-left: 5px solid #28a745; }
+        .kpi-card.time { background-color: #fff8e6; border-left: 5px solid #ffc107; }
+        .kpi-card.busy { background-color: #f7e6ff; border-left: 5px solid #6f42c1; }
+        
+        /* Status Breakdown */
+        .status-breakdown { 
+            margin-top: 40px; 
+            padding-top: 20px;
+            border-top: 1px dashed #ced4da;
+        }
+        .status-breakdown p { font-size: 18px; margin: 10px 0; }
+        .status-breakdown .label { font-weight: bold; display: inline-block; width: 150px; }
+        .status-breakdown .count { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <!-- ✅ Properly Linked Navbar Fragment -->
+    <div th:replace="fragments :: navbar"></div>
+
+    <div class="container">
+        <h1>Operational Reports and Analytics</h1>
+
+        <div class="kpi-grid">
+            <!-- KPI Card: Total Requests -->
+            <div class="kpi-card total">
+                <h2>Total Requests Received</h2>
+                <div class="value" th:text="${totalRequests}">10</div>
+            </div>
+
+            <!-- KPI Card: Completed Requests -->
+            <div class="kpi-card completed">
+                <h2>Requests Successfully Completed</h2>
+                <div class="value" th:text="${completedRequests}">8</div>
+            </div>
+
+            <!-- KPI Card: Average Duration -->
+            <div class="kpi-card time">
+                <h2>Avg. Service Duration (Assigned to Complete)</h2>
+                <div class="value" th:text="${averageDuration}">5 min 30 sec</div>
+            </div>
+            
+            <!-- KPI Card: Busiest Ambulance -->
+            <div class="kpi-card busy">
+                <h2>Busiest Ambulance</h2>
+                <div class="value" th:text="${busiestAmbulance}">KA01MT9988 (5 requests)</div>
+            </div>
+        </div>
+        
+        <!-- Status Breakdown -->
+        <div class="status-breakdown">
+            <h2>Current Request Status Breakdown</h2>
+            <p><span class="label">PENDING (Waiting):</span> <span class="count" th:text="${pendingRequests}">1</span></p>
+            <p><span class="label">ASSIGNED (In Service):</span> <span class="count" th:text="${assignedRequests}">1</span></p>
+            <p><span class="label">COMPLETED (Archived):</span> <span class="count" th:text="${completedRequests}">8</span></p>
+        </div>
+    </div>
+</body>
+</html>
