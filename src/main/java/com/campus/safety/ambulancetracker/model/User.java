@@ -27,6 +27,13 @@ public class User {
     @Column(nullable = false, unique = true)
     private String contactNumber;
 
+    // ADD THESE TWO FIELDS
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
     // Role (e.g., STUDENT, STAFF, SECURITY)
     @Column(nullable = false, length = 20)
     private String role; 

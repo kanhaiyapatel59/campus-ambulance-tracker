@@ -2,41 +2,285 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration - Ambulance Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #28a745; }
-        form { max-width: 400px; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"], input[type="email"], select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+        :root {
+            --primary: #2c5aa0;
+            --secondary: #34a853;
+            --dark: #2d3748;
+            --light: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .registration-container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            flex: 1;
+        }
+        
+        .registration-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .registration-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .registration-header h1 {
+            color: var(--secondary);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .registration-header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-label i {
+            color: var(--primary);
+            width: 20px;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.1);
+        }
+        
+        .btn-register {
+            background: linear-gradient(135deg, var(--secondary), #10b981);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 168, 83, 0.3);
+        }
+        
+        .btn-cancel {
+            background: transparent;
+            color: var(--dark);
+            border: 2px solid #e9ecef;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 15px;
+            text-decoration: none;
+        }
+        
+        .btn-cancel:hover {
+            background: #f8f9fa;
+            border-color: var(--dark);
+        }
+        
+        .role-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .role-info h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .role-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .role-list li {
+            padding: 5px 0;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .role-list li i {
+            color: var(--secondary);
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .registration-container {
+                padding: 10px;
+                margin: 10px auto;
+            }
+            
+            .registration-card {
+                padding: 25px;
+            }
+            
+            .registration-header h1 {
+                font-size: 1.8rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Register New Campus User</h1>
-    
-    <form th:action="@{/register}" th:object="${user}" method="post">
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" th:field="*{firstName}" required>
+    <div th:replace="~{fragments :: navbar}"></div>
 
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" th:field="*{lastName}">
+    <div class="registration-container">
+        <div class="registration-card">
+            <div class="registration-header">
+                <h1><i class="fas fa-user-plus"></i> User Registration</h1>
+                <p>Register new campus members for emergency services</p>
+            </div>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" th:field="*{email}" required>
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <div class="form-group">
+                    <label class="form-label" for="firstName">
+                        <i class="fas fa-user"></i> First Name
+                    </label>
+                    <input type="text" class="form-input" id="firstName" th:field="*{firstName}" 
+                           placeholder="Enter first name" required>
+                </div>
 
-        <label for="contactNumber">Contact Number:</label>
-        <input type="text" id="contactNumber" th:field="*{contactNumber}" required>
-        
-        <label for="role">Role:</label>
-        <select id="role" th:field="*{role}" required>
-            <option value="STUDENT">Student</option>
-            <option value="STAFF">Staff</option>
-            <option value="SECURITY">Security</option>
-        </select>
+                <div class="form-group">
+                    <label class="form-label" for="lastName">
+                        <i class="fas fa-user"></i> Last Name
+                    </label>
+                    <input type="text" class="form-input" id="lastName" th:field="*{lastName}" 
+                           placeholder="Enter last name">
+                </div>
 
-        <button type="submit">Register</button>
-        <a href="/">Cancel</a>
-    </form>
+                <div class="form-group">
+                    <label class="form-label" for="email">
+                        <i class="fas fa-envelope"></i> Email Address
+                    </label>
+                    <input type="email" class="form-input" id="email" th:field="*{email}" 
+                           placeholder="Enter email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="contactNumber">
+                        <i class="fas fa-phone"></i> Contact Number
+                    </label>
+                    <input type="text" class="form-input" id="contactNumber" th:field="*{contactNumber}" 
+                           placeholder="Enter contact number" required>
+                </div>
+
+                <!-- ADD USERNAME FIELD -->
+                <div class="form-group">
+                    <label class="form-label" for="username">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <input type="text" class="form-input" id="username" th:field="*{username}" 
+                           placeholder="Choose a username" required>
+                </div>
+
+                <!-- ADD PASSWORD FIELD -->
+                <div class="form-group">
+                    <label class="form-label" for="password">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" class="form-input" id="password" th:field="*{password}" 
+                           placeholder="Enter password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="role">
+                        <i class="fas fa-id-card"></i> Campus Role
+                    </label>
+                    <select id="role" th:field="*{role}" class="form-select" required>
+                        <option value="">Select your role...</option>
+                        <option value="STUDENT">Student</option>
+                        <option value="STAFF">Staff Member</option>
+                        <option value="SECURITY">Security Personnel</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-register">
+                    <i class="fas fa-user-check"></i> REGISTER USER
+                </button>
+            </form>
+            
+            <a th:href="@{/}" class="btn-cancel">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            
+            <div class="role-info">
+                <h4><i class="fas fa-info-circle"></i> Role Information</h4>
+                <ul class="role-list">
+                    <li><i class="fas fa-graduation-cap"></i> <strong>Student:</strong> Campus students requiring emergency services</li>
+                    <li><i class="fas fa-briefcase"></i> <strong>Staff:</strong> Faculty and administrative staff members</li>
+                    <li><i class="fas fa-shield-alt"></i> <strong>Security:</strong> Campus security personnel</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -2,59 +2,161 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Fragments - Navbar</title>
-</head>
-<body>
-
-<!-- ✅ Define the Navigation Bar fragment -->
-<div th:fragment="navbar" class="navbar-container">
+    <title>Navigation Components</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #2c5aa0;
+            --secondary: #34a853;
+            --dark: #1a202c;
+            --light: #f8f9fa;
+        }
+        
+        .navbar-modern {
+            background: linear-gradient(135deg, var(--primary), #1e429f);
+            padding: 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
         .navbar-container {
-            background-color: #343a40; /* Dark background */
-            padding: 10px 20px;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 20px;
         }
-        .navbar-logo a {
-            color: #fff;
-            font-size: 24px;
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
             font-weight: bold;
-            text-decoration: none;
-            text-shadow: 1px 1px 2px #000;
+            padding: 15px 0;
         }
-        .navbar-links a {
-            color: #adb5bd; /* Light gray text */
-            margin-left: 20px;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 8px 12px;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s;
+        
+        .navbar-brand i {
+            color: #ff6b6b;
+            font-size: 1.8rem;
         }
-        .navbar-links a:hover {
-            background-color: #495057; /* Slightly lighter background on hover */
-            color: #fff;
+        
+        .navbar-menu {
+            display: flex;
+            gap: 5px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+        
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .navbar-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 2px;
+            }
+            
+            .nav-link {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
         }
     </style>
-    
-    <div class="navbar-logo">
-        <a th:href="@{/}">Ambulance Tracker</a>
-    </div>
-
-    <div class="navbar-links">
-        <a th:href="@{/}" title="Main Dashboard for Ambulance Status">Dashboard</a>
-        <a th:href="@{/requests/active}" title="View and Complete Active/Pending Emergencies">Active Requests</a>
-        <a th:href="@{/request/new}" title="Submit a New Emergency Call">New Request</a>
-        <a th:href="@{/ambulances/manage}" title="Add and manage ambulance fleet status">Fleet Management</a>
-        <!-- ✅ Proper Reports Page Link -->
-        <a th:href="@{/reports}" title="View Operational Metrics and Analytics">Reports</a>
-        <a th:href="@{/register}" title="Register a new campus user/security staff">Register User</a>
-        <a th:href="@{/api/ambulances}" title="Raw JSON API Endpoint" target="_blank">API Data</a>
-    </div>
-</div>
-
+</head>
+<body>
+    <nav th:fragment="navbar" class="navbar-modern">
+        <div class="navbar-container">
+            <a th:href="@{/}" class="navbar-brand">
+                <i class="fas fa-ambulance"></i>
+                Campus Ambulance Tracker
+            </a>
+            
+            <ul class="navbar-menu">
+                <li class="nav-item">
+                    <a th:href="@{/}" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/requests/active}" class="nav-link">
+                        <i class="fas fa-list-alt"></i>
+                        Active Requests
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/request/new}" class="nav-link">
+                        <i class="fas fa-plus-circle"></i>
+                        New Request
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/ambulances/manage}" class="nav-link">
+                        <i class="fas fa-truck"></i>
+                        Fleet Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/reports}" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/register}" class="nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        Register User
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/api/ambulances}" class="nav-link" target="_blank">
+                        <i class="fas fa-code"></i>
+                        API Data
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </body>
 </html>

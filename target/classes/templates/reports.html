@@ -2,91 +2,299 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Operational Reports and Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operational Analytics - Ambulance Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f7f6; }
-        .container { width: 90%; max-width: 1200px; margin: 20px auto; }
-        h1 { color: #007bff; border-bottom: 3px solid #007bff; padding-bottom: 10px; margin-bottom: 30px; }
+        :root {
+            --primary: #2c5aa0;
+            --success: #34a853;
+            --warning: #fbbc05;
+            --danger: #ea4335;
+            --info: #17a2b8;
+            --dark: #2d3748;
+            --light: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .reports-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .reports-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .reports-header h1 {
+            color: var(--dark);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .reports-header h1 i {
+            color: var(--info);
+        }
         
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
+        
         .kpi-card {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 25px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .kpi-card h2 {
-            font-size: 16px;
-            color: #6c757d;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-        .kpi-card .value {
-            font-size: 48px;
-            font-weight: bold;
-            color: #343a40;
-            margin-top: 5px;
-        }
-        .kpi-card.total { background-color: #e9f5fe; border-left: 5px solid #007bff; }
-        .kpi-card.completed { background-color: #e6ffed; border-left: 5px solid #28a745; }
-        .kpi-card.time { background-color: #fff8e6; border-left: 5px solid #ffc107; }
-        .kpi-card.busy { background-color: #f7e6ff; border-left: 5px solid #6f42c1; }
         
-        /* Status Breakdown */
-        .status-breakdown { 
-            margin-top: 40px; 
-            padding-top: 20px;
-            border-top: 1px dashed #ced4da;
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
         }
-        .status-breakdown p { font-size: 18px; margin: 10px 0; }
-        .status-breakdown .label { font-weight: bold; display: inline-block; width: 150px; }
-        .status-breakdown .count { color: #dc3545; font-weight: bold; }
+        
+        .kpi-card.total::before { background: var(--primary); }
+        .kpi-card.completed::before { background: var(--success); }
+        .kpi-card.time::before { background: var(--warning); }
+        .kpi-card.busy::before { background: var(--info); }
+        
+        .kpi-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .kpi-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+        }
+        
+        .kpi-card.total .kpi-icon { background: rgba(44, 90, 160, 0.1); color: var(--primary); }
+        .kpi-card.completed .kpi-icon { background: rgba(52, 168, 83, 0.1); color: var(--success); }
+        .kpi-card.time .kpi-icon { background: rgba(251, 188, 5, 0.1); color: var(--warning); }
+        .kpi-card.busy .kpi-icon { background: rgba(23, 162, 184, 0.1); color: var(--info); }
+        
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin: 15px 0;
+        }
+        
+        .kpi-label {
+            color: var(--dark);
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .kpi-subtext {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        
+        .status-breakdown {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        .status-breakdown h2 {
+            color: var(--dark);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .status-indicator.pending { background: var(--warning); }
+        .status-indicator.assigned { background: var(--info); }
+        .status-indicator.completed { background: var(--success); }
+        
+        .status-label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .status-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .status-count {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        @media (max-width: 768px) {
+            .reports-container {
+                padding: 10px;
+            }
+            
+            .reports-header h1 {
+                font-size: 2rem;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-value {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- ✅ Properly Linked Navbar Fragment -->
     <div th:replace="fragments :: navbar"></div>
 
-    <div class="container">
-        <h1>Operational Reports and Analytics</h1>
+    <div class="reports-container">
+        <div class="reports-header">
+            <h1><i class="fas fa-chart-line"></i> Operational Analytics & Reports</h1>
+            <p>Comprehensive performance metrics and system insights</p>
+        </div>
 
         <div class="kpi-grid">
-            <!-- KPI Card: Total Requests -->
+            <!-- Total Requests -->
             <div class="kpi-card total">
-                <h2>Total Requests Received</h2>
-                <div class="value" th:text="${totalRequests}">10</div>
+                <div class="kpi-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="kpi-value" th:text="${totalRequests}">15</div>
+                <div class="kpi-label">Total Requests</div>
+                <div class="kpi-subtext">All emergency calls received</div>
             </div>
 
-            <!-- KPI Card: Completed Requests -->
+            <!-- Completed Requests -->
             <div class="kpi-card completed">
-                <h2>Requests Successfully Completed</h2>
-                <div class="value" th:text="${completedRequests}">8</div>
+                <div class="kpi-icon">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <div class="kpi-value" th:text="${completedRequests}">12</div>
+                <div class="kpi-label">Completed</div>
+                <div class="kpi-subtext">Successfully served</div>
             </div>
 
-            <!-- KPI Card: Average Duration -->
+            <!-- Average Duration -->
             <div class="kpi-card time">
-                <h2>Avg. Service Duration (Assigned to Complete)</h2>
-                <div class="value" th:text="${averageDuration}">5 min 30 sec</div>
+                <div class="kpi-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="kpi-value" th:text="${averageDuration}">5m 30s</div>
+                <div class="kpi-label">Avg. Response Time</div>
+                <div class="kpi-subtext">Assignment to completion</div>
             </div>
             
-            <!-- KPI Card: Busiest Ambulance -->
+            <!-- Busiest Ambulance -->
             <div class="kpi-card busy">
-                <h2>Busiest Ambulance</h2>
-                <div class="value" th:text="${busiestAmbulance}">KA01MT9988 (5 requests)</div>
+                <div class="kpi-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="kpi-value" th:text="${busiestAmbulance}">KA01MT9988</div>
+                <div class="kpi-label">Most Active Unit</div>
+                <div class="kpi-subtext">Highest completion rate</div>
             </div>
         </div>
         
         <!-- Status Breakdown -->
         <div class="status-breakdown">
-            <h2>Current Request Status Breakdown</h2>
-            <p><span class="label">PENDING (Waiting):</span> <span class="count" th:text="${pendingRequests}">1</span></p>
-            <p><span class="label">ASSIGNED (In Service):</span> <span class="count" th:text="${assignedRequests}">1</span></p>
-            <p><span class="label">COMPLETED (Archived):</span> <span class="count" th:text="${completedRequests}">8</span></p>
+            <h2><i class="fas fa-chart-pie"></i> Request Status Breakdown</h2>
+            
+            <div class="status-item">
+                <div class="status-info">
+                    <div class="status-indicator pending"></div>
+                    <div>
+                        <div class="status-label">PENDING REQUESTS</div>
+                        <div class="status-description">Awaiting ambulance assignment</div>
+                    </div>
+                </div>
+                <div class="status-count" th:text="${pendingRequests}">1</div>
+            </div>
+            
+            <div class="status-item">
+                <div class="status-info">
+                    <div class="status-indicator assigned"></div>
+                    <div>
+                        <div class="status-label">ASSIGNED REQUESTS</div>
+                        <div class="status-description">Currently in service</div>
+                    </div>
+                </div>
+                <div class="status-count" th:text="${assignedRequests}">2</div>
+            </div>
+            
+            <div class="status-item">
+                <div class="status-info">
+                    <div class="status-indicator completed"></div>
+                    <div>
+                        <div class="status-label">COMPLETED REQUESTS</div>
+                        <div class="status-description">Successfully archived</div>
+                    </div>
+                </div>
+                <div class="status-count" th:text="${completedRequests}">12</div>
+            </div>
         </div>
     </div>
 </body>
