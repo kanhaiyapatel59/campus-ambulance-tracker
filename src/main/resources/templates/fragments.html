@@ -13,7 +13,7 @@
             --dark: #1a202c;
             --light: #f8f9fa;
         }
-        
+
         .navbar-modern {
             background: linear-gradient(135deg, var(--primary), #1e429f);
             padding: 0;
@@ -22,7 +22,7 @@
             top: 0;
             z-index: 1000;
         }
-        
+
         .navbar-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -31,7 +31,7 @@
             align-items: center;
             padding: 0 20px;
         }
-        
+
         .navbar-brand {
             display: flex;
             align-items: center;
@@ -42,12 +42,12 @@
             font-weight: bold;
             padding: 15px 0;
         }
-        
+
         .navbar-brand i {
             color: #ff6b6b;
             font-size: 1.8rem;
         }
-        
+
         .navbar-menu {
             display: flex;
             gap: 5px;
@@ -56,11 +56,11 @@
             padding: 0;
             align-items: center;
         }
-        
+
         .nav-item {
             position: relative;
         }
-        
+
         .nav-link {
             color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
@@ -72,22 +72,22 @@
             border-radius: 8px;
             font-weight: 500;
         }
-        
+
         .nav-link:hover {
             background: rgba(255, 255, 255, 0.1);
             color: white;
             transform: translateY(-2px);
         }
-        
+
         .nav-link i {
             font-size: 1.1rem;
         }
-        
+
         .nav-link.active {
             background: rgba(255, 255, 255, 0.15);
             color: white;
         }
-        
+
         .user-info {
             display: flex;
             align-items: center;
@@ -95,12 +95,12 @@
             color: white;
             margin-left: 20px;
         }
-        
+
         .user-welcome {
             font-size: 0.9rem;
             opacity: 0.9;
         }
-        
+
         .user-role {
             background: rgba(255, 255, 255, 0.2);
             padding: 4px 8px;
@@ -108,7 +108,7 @@
             font-size: 0.8rem;
             font-weight: bold;
         }
-        
+
         .btn-logout {
             background: rgba(255, 255, 255, 0.1);
             color: white;
@@ -123,12 +123,12 @@
             font-size: 0.9rem;
             text-decoration: none;
         }
-        
+
         .btn-logout:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-1px);
         }
-        
+
         .login-link {
             background: var(--secondary);
             color: white;
@@ -141,30 +141,30 @@
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        
+
         .login-link:hover {
             background: #2ecc71;
             transform: translateY(-1px);
         }
-        
+
         @media (max-width: 768px) {
             .navbar-container {
                 flex-direction: column;
                 padding: 10px;
             }
-            
+
             .navbar-menu {
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 2px;
                 margin-top: 10px;
             }
-            
+
             .nav-link {
                 padding: 10px 15px;
                 font-size: 0.9rem;
             }
-            
+
             .user-info {
                 margin-left: 0;
                 margin-top: 10px;
@@ -175,91 +175,91 @@
     </style>
 </head>
 <body>
-    <nav th:fragment="navbar" class="navbar-modern">
-        <div class="navbar-container">
-            <a th:href="@{/}" class="navbar-brand">
-                <i class="fas fa-ambulance"></i>
-                Campus Ambulance Tracker
-            </a>
-            
-            <ul class="navbar-menu">
-                <!-- Public menu items -->
-                <li class="nav-item">
-                    <a th:href="@{/}" class="nav-link">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Dashboard
-                    </a>
-                </li>
-                
-                <!-- User & Admin menu items -->
-                <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN')">
-                    <a th:href="@{/requests/active}" class="nav-link">
-                        <i class="fas fa-list-alt"></i>
-                        Active Requests
-                    </a>
-                </li>
-                
-                <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN')">
-                    <a th:href="@{/request/new}" class="nav-link">
-                        <i class="fas fa-plus-circle"></i>
-                        New Request
-                    </a>
-                </li>
-                
-                <!-- Admin only menu items -->
-                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/ambulances/manage}" class="nav-link">
-                        <i class="fas fa-truck"></i>
-                        Fleet Management
-                    </a>
-                </li>
-                
-                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/reports}" class="nav-link">
-                        <i class="fas fa-chart-bar"></i>
-                        Reports
-                    </a>
-                </li>
-                
-                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/register}" class="nav-link">
-                        <i class="fas fa-user-plus"></i>
-                        Register User
-                    </a>
-                </li>
-                
-                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/api/ambulances}" class="nav-link" target="_blank">
-                        <i class="fas fa-code"></i>
-                        API Data
-                    </a>
-                </li>
-                
-                <!-- User authentication section -->
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <div class="user-info">
-                        <div class="user-welcome">
-                            Welcome, <span sec:authentication="name"></span>
-                            <div class="user-role" sec:authentication="principal.authorities"></div>
-                        </div>
-                        <form th:action="@{/logout}" method="post" style="display: inline;">
-                            <button type="submit" class="btn-logout">
-                                <i class="fas fa-sign-out-alt"></i>
-                                Logout
-                            </button>
-                        </form>
+<nav th:fragment="navbar" class="navbar-modern">
+    <div class="navbar-container">
+        <a th:href="@{/}" class="navbar-brand">
+            <i class="fas fa-ambulance"></i>
+            Campus Ambulance Tracker
+        </a>
+
+        <ul class="navbar-menu">
+            <!-- Public menu items -->
+            <li class="nav-item">
+                <a th:href="@{/}" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <!-- User & Admin & Student & Staff & Security menu items -->
+            <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN', 'STUDENT', 'STAFF', 'SECURITY')">
+                <a th:href="@{/requests/active}" class="nav-link">
+                    <i class="fas fa-list-alt"></i>
+                    Active Requests
+                </a>
+            </li>
+
+            <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN', 'STUDENT', 'STAFF', 'SECURITY')">
+                <a th:href="@{/request/new}" class="nav-link">
+                    <i class="fas fa-plus-circle"></i>
+                    New Request
+                </a>
+            </li>
+
+            <!-- Admin only menu items -->
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/ambulances/manage}" class="nav-link">
+                    <i class="fas fa-truck"></i>
+                    Fleet Management
+                </a>
+            </li>
+
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/reports}" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    Reports
+                </a>
+            </li>
+
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/register}" class="nav-link">
+                    <i class="fas fa-user-plus"></i>
+                    Register User
+                </a>
+            </li>
+
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/api/ambulances}" class="nav-link" target="_blank">
+                    <i class="fas fa-code"></i>
+                    API Data
+                </a>
+            </li>
+
+            <!-- User authentication section -->
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <div class="user-info">
+                    <div class="user-welcome">
+                        Welcome, <span sec:authentication="name"></span>
+                        <div class="user-role" sec:authentication="principal.authorities"></div>
                     </div>
-                </li>
-                
-                <!-- Login link for unauthenticated users -->
-                <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a th:href="@{/login}" class="login-link">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Login
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                        <button type="submit" class="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </form>
+                </div>
+            </li>
+
+            <!-- Login link for unauthenticated users -->
+            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}" class="login-link">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
 </body>
 </html>

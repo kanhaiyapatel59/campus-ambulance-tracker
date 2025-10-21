@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,9 +13,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,19 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         System.out.println("   - Password hash: " + user.getPassword());
         System.out.println("   - Enabled: " + user.isEnabled());
         
-        // Test password matching
-        boolean passwordMatches = passwordEncoder.matches("test123", user.getPassword());
-        System.out.println("   - Password 'test123' matches: " + passwordMatches);
-        
-        if (!passwordMatches) {
-            System.out.println("❌ PASSWORD MISMATCH!");
-            System.out.println("   - Expected: test123");
-            System.out.println("   - Stored hash: " + user.getPassword());
-            
-            // Let's test what the encoded version of test123 should be
-            String testEncoded = passwordEncoder.encode("test123");
-            System.out.println("   - Current encode('test123'): " + testEncoded);
-        }
+        // REMOVE manual password testing — Spring Security handles this automatically
         
         return user;
     }

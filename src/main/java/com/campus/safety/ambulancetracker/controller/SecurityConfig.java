@@ -37,7 +37,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authenticationProvider(authenticationProvider()) // ADD THIS LINE
+            .authenticationProvider(authenticationProvider())
             .authorizeHttpRequests(authz -> authz
                 // Public endpoints
                 .requestMatchers(
@@ -64,7 +64,7 @@ public class SecurityConfig {
                     new AntPathRequestMatcher("/request/new"),
                     new AntPathRequestMatcher("/requests/active"),
                     new AntPathRequestMatcher("/requests/**/complete")
-                ).hasAnyRole("USER", "ADMIN")
+                ).hasAnyRole("USER", "ADMIN", "STUDENT", "STAFF", "SECURITY")
                 
                 .anyRequest().authenticated()
             )

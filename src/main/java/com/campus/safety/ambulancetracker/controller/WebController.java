@@ -34,7 +34,7 @@ public class WebController {
      * Displays the main operational dashboard.
      */
     @GetMapping({"/", "/dashboard"})
-        public String dashboard(Model model)  {
+    public String dashboard(Model model) {
         model.addAttribute("ambulances", ambulanceService.findAll());
         return "dashboard"; // src/main/resources/templates/dashboard.html
     }
@@ -52,9 +52,26 @@ public class WebController {
      * Handles user registration form submission.
      */
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user) {
-        userService.save(user);
-        return "redirect:/";
+    public String registerUser(@ModelAttribute User user, Model model) {
+        try {
+            System.out.println("📝 Registering new user:");
+            System.out.println("   - Username: " + user.getUsername());
+            System.out.println("   - Password (raw): " + user.getPassword());
+            System.out.println("   - Role: " + user.getRole());
+            System.out.println("   - Email: " + user.getEmail());
+
+            User savedUser = userService.save(user);
+
+            System.out.println("✅ User registered successfully:");
+            System.out.println("   - User ID: " + savedUser.getId());
+            System.out.println("   - Password (encoded): " + savedUser.getPassword());
+
+            return "redirect:/login?registered=true";
+        } catch (Exception e) {
+            System.out.println("❌ Registration failed: " + e.getMessage());
+            model.addAttribute("error", "Registration failed: " + e.getMessage());
+            return "user-register";
+        }
     }
 
     /**
