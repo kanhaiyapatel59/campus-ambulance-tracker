@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Navigation Components</title>
@@ -8,6 +9,7 @@
         :root {
             --primary: #2c5aa0;
             --secondary: #34a853;
+            --danger: #ea4335;
             --dark: #1a202c;
             --light: #f8f9fa;
         }
@@ -52,6 +54,7 @@
             list-style: none;
             margin: 0;
             padding: 0;
+            align-items: center;
         }
         
         .nav-item {
@@ -85,6 +88,65 @@
             color: white;
         }
         
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+            margin-left: 20px;
+        }
+        
+        .user-welcome {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .user-role {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .login-link {
+            background: var(--secondary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .login-link:hover {
+            background: #2ecc71;
+            transform: translateY(-1px);
+        }
+        
         @media (max-width: 768px) {
             .navbar-container {
                 flex-direction: column;
@@ -95,11 +157,19 @@
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 2px;
+                margin-top: 10px;
             }
             
             .nav-link {
                 padding: 10px 15px;
                 font-size: 0.9rem;
+            }
+            
+            .user-info {
+                margin-left: 0;
+                margin-top: 10px;
+                flex-direction: column;
+                gap: 8px;
             }
         }
     </style>
@@ -113,46 +183,79 @@
             </a>
             
             <ul class="navbar-menu">
+                <!-- Public menu items -->
                 <li class="nav-item">
                     <a th:href="@{/}" class="nav-link">
                         <i class="fas fa-tachometer-alt"></i>
                         Dashboard
                     </a>
                 </li>
-                <li class="nav-item">
+                
+                <!-- User & Admin menu items -->
+                <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN')">
                     <a th:href="@{/requests/active}" class="nav-link">
                         <i class="fas fa-list-alt"></i>
                         Active Requests
                     </a>
                 </li>
-                <li class="nav-item">
+                
+                <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN')">
                     <a th:href="@{/request/new}" class="nav-link">
                         <i class="fas fa-plus-circle"></i>
                         New Request
                     </a>
                 </li>
-                <li class="nav-item">
+                
+                <!-- Admin only menu items -->
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/ambulances/manage}" class="nav-link">
                         <i class="fas fa-truck"></i>
                         Fleet Management
                     </a>
                 </li>
-                <li class="nav-item">
+                
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/reports}" class="nav-link">
                         <i class="fas fa-chart-bar"></i>
                         Reports
                     </a>
                 </li>
-                <li class="nav-item">
+                
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/register}" class="nav-link">
                         <i class="fas fa-user-plus"></i>
                         Register User
                     </a>
                 </li>
-                <li class="nav-item">
+                
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/api/ambulances}" class="nav-link" target="_blank">
                         <i class="fas fa-code"></i>
                         API Data
+                    </a>
+                </li>
+                
+                <!-- User authentication section -->
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <div class="user-info">
+                        <div class="user-welcome">
+                            Welcome, <span sec:authentication="name"></span>
+                            <div class="user-role" sec:authentication="principal.authorities"></div>
+                        </div>
+                        <form th:action="@{/logout}" method="post" style="display: inline;">
+                            <button type="submit" class="btn-logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </li>
+                
+                <!-- Login link for unauthenticated users -->
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}" class="login-link">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
                     </a>
                 </li>
             </ul>

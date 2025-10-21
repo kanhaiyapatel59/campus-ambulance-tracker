@@ -33,8 +33,8 @@ public class WebController {
     /**
      * Displays the main operational dashboard.
      */
-    @GetMapping("/")
-    public String dashboard(Model model) {
+    @GetMapping({"/", "/dashboard"})
+        public String dashboard(Model model)  {
         model.addAttribute("ambulances", ambulanceService.findAll());
         return "dashboard"; // src/main/resources/templates/dashboard.html
     }

@@ -2,19 +2,21 @@ package com.campus.safety.ambulancetracker.service;
 
 import com.campus.safety.ambulancetracker.model.User;
 import com.campus.safety.ambulancetracker.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List; // ADD THIS IMPORT
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Finds a user by ID. Used by EmergencyRequestService.
@@ -27,6 +29,8 @@ public class UserService {
      * Saves a new user or updates an existing one. (Needed for UserController)
      */
     public User save(User user) {
+        // Encode password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
     
@@ -35,5 +39,12 @@ public class UserService {
      */
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    /**
+     * Find user by username (for login)
+     */
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

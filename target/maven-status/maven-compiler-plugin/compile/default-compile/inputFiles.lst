@@ -1,6 +1,8 @@
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/AmbulanceTrackerApplication.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/controller/AmbulanceController.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/controller/EmergencyRequestController.java
+/Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/controller/LoginController.java
+/Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/controller/SecurityConfig.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/controller/UserController.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/controller/WebController.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/model/Ambulance.java
@@ -11,5 +13,6 @@
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/repository/EmergencyRequestRepository.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/repository/UserRepository.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/service/AmbulanceService.java
+/Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/service/CustomUserDetailsService.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/service/EmergencyRequestService.java
 /Users/kanhaiyapatel/campus-ambulance-tracker/src/main/java/com/campus/safety/ambulancetracker/service/UserService.java
