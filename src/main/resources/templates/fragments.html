@@ -14,13 +14,10 @@
             --light: #f8f9fa;
         }
 
-        .navbar-modern {
-            background: linear-gradient(135deg, var(--primary), #1e429f);
+        .navbar-simple {
+            background: var(--primary);
             padding: 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .navbar-container {
@@ -35,17 +32,16 @@
         .navbar-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             color: white;
             text-decoration: none;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
             padding: 15px 0;
         }
 
         .navbar-brand i {
             color: #ff6b6b;
-            font-size: 1.8rem;
         }
 
         .navbar-menu {
@@ -62,30 +58,21 @@
         }
 
         .nav-link {
-            color: rgba(255, 255, 255, 0.9);
+            color: white;
             text-decoration: none;
             padding: 15px 20px;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            font-weight: 500;
+            transition: background 0.3s ease;
         }
 
         .nav-link:hover {
             background: rgba(255, 255, 255, 0.1);
-            color: white;
-            transform: translateY(-2px);
         }
 
         .nav-link i {
             font-size: 1.1rem;
-        }
-
-        .nav-link.active {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
         }
 
         .user-info {
@@ -98,7 +85,6 @@
 
         .user-welcome {
             font-size: 0.9rem;
-            opacity: 0.9;
         }
 
         .user-role {
@@ -106,7 +92,6 @@
             padding: 4px 8px;
             border-radius: 12px;
             font-size: 0.8rem;
-            font-weight: bold;
         }
 
         .btn-logout {
@@ -114,37 +99,24 @@
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 8px 16px;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 6px;
             font-size: 0.9rem;
-            text-decoration: none;
-        }
-
-        .btn-logout:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
         }
 
         .login-link {
             background: var(--secondary);
             color: white;
             padding: 8px 16px;
-            border-radius: 8px;
+            border-radius: 6px;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 6px;
             font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .login-link:hover {
-            background: #2ecc71;
-            transform: translateY(-1px);
         }
 
         @media (max-width: 768px) {
@@ -156,7 +128,6 @@
             .navbar-menu {
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 2px;
                 margin-top: 10px;
             }
 
@@ -168,14 +139,12 @@
             .user-info {
                 margin-left: 0;
                 margin-top: 10px;
-                flex-direction: column;
-                gap: 8px;
             }
         }
     </style>
 </head>
 <body>
-<nav th:fragment="navbar" class="navbar-modern">
+<nav th:fragment="navbar" class="navbar-simple">
     <div class="navbar-container">
         <a th:href="@{/}" class="navbar-brand">
             <i class="fas fa-ambulance"></i>
@@ -183,7 +152,6 @@
         </a>
 
         <ul class="navbar-menu">
-            <!-- Public menu items -->
             <li class="nav-item">
                 <a th:href="@{/}" class="nav-link">
                     <i class="fas fa-tachometer-alt"></i>
@@ -191,7 +159,6 @@
                 </a>
             </li>
 
-            <!-- User & Admin & Student & Staff & Security menu items -->
             <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN', 'STUDENT', 'STAFF', 'SECURITY')">
                 <a th:href="@{/requests/active}" class="nav-link">
                     <i class="fas fa-list-alt"></i>
@@ -206,7 +173,6 @@
                 </a>
             </li>
 
-            <!-- Admin only menu items -->
             <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                 <a th:href="@{/ambulances/manage}" class="nav-link">
                     <i class="fas fa-truck"></i>
@@ -235,7 +201,6 @@
                 </a>
             </li>
 
-            <!-- User authentication section -->
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <div class="user-info">
                     <div class="user-welcome">
@@ -251,7 +216,6 @@
                 </div>
             </li>
 
-            <!-- Login link for unauthenticated users -->
             <li class="nav-item" sec:authorize="!isAuthenticated()">
                 <a th:href="@{/login}" class="login-link">
                     <i class="fas fa-sign-in-alt"></i>
