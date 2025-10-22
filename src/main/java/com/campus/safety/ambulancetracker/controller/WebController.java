@@ -31,9 +31,17 @@ public class WebController {
     }
 
     /**
+     * Redirect root URL to dashboard (secured by authentication).
+     */
+    @GetMapping("/")
+    public String redirectToDashboard() {
+        return "redirect:/dashboard";
+    }
+
+    /**
      * Displays the main operational dashboard.
      */
-    @GetMapping({"/", "/dashboard"})
+    @GetMapping("/dashboard")
     public String dashboard(Model model) {
         model.addAttribute("ambulances", ambulanceService.findAll());
         return "dashboard"; // src/main/resources/templates/dashboard.html
@@ -56,16 +64,12 @@ public class WebController {
         try {
             System.out.println("📝 Registering new user:");
             System.out.println("   - Username: " + user.getUsername());
-            System.out.println("   - Password (raw): " + user.getPassword());
-            System.out.println("   - Role: " + user.getRole());
             System.out.println("   - Email: " + user.getEmail());
+            System.out.println("   - Role: " + user.getRole());
 
             User savedUser = userService.save(user);
 
-            System.out.println("✅ User registered successfully:");
-            System.out.println("   - User ID: " + savedUser.getId());
-            System.out.println("   - Password (encoded): " + savedUser.getPassword());
-
+            System.out.println("✅ User registered successfully: " + savedUser.getId());
             return "redirect:/login?registered=true";
         } catch (Exception e) {
             System.out.println("❌ Registration failed: " + e.getMessage());
@@ -145,7 +149,7 @@ public class WebController {
     public String addAmbulance(@ModelAttribute("newAmbulance") Ambulance ambulance) {
         ambulance.setStatus(AmbulanceStatus.AVAILABLE);
         ambulance.setLastUpdated(LocalDateTime.now());
-        ambulance.setLatitude(12.9716);
+        ambulance.setLatitude(12.9716); // default example coordinates
         ambulance.setLongitude(77.5946);
 
         ambulanceService.save(ambulance);
