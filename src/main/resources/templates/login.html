@@ -83,43 +83,275 @@
             .login-card { padding: 25px; }
             .login-header h1 { font-size: 1.5rem; }
         }
+
+        /* NEW ENHANCED STYLES */
+        .login-page-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .welcome-section {
+            flex: 1;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .welcome-content {
+            max-width: 500px;
+        }
+
+        .welcome-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .welcome-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .ambulance-3d {
+            width: 200px;
+            height: 200px;
+            margin: 30px auto;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .ambulance-body {
+            width: 160px;
+            height: 80px;
+            background: linear-gradient(135deg, #ffffff, #ff6b6b);
+            border-radius: 10px;
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            transform: translateZ(20px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .ambulance-top {
+            width: 100px;
+            height: 40px;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            border-radius: 8px 8px 0 0;
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            transform: translateZ(30px);
+        }
+
+        .ambulance-light {
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border-radius: 50%;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            transform: translateZ(40px);
+            animation: blink 2s infinite;
+            box-shadow: 0 0 20px #ffd700;
+        }
+
+        .wheel {
+            width: 30px;
+            height: 30px;
+            background: #2d3748;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 10px;
+            transform: translateZ(10px);
+            border: 3px solid #4a5568;
+        }
+
+        .wheel-front { left: 30px; }
+        .wheel-back { right: 30px; }
+
+        .feature-list {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .feature-item i {
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+
+        .login-form-section {
+            flex: 0 0 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateY(10deg); }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .login-page-wrapper {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .welcome-section {
+                padding: 20px;
+            }
+            
+            .welcome-title {
+                font-size: 2.2rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .login-form-section {
+                flex: 0 0 auto;
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .ambulance-3d {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-page-wrapper {
+                padding: 10px;
+            }
+            
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+            
+            .ambulance-3d {
+                transform: scale(0.6);
+            }
+            
+            .feature-item {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <h1><i class="fas fa-ambulance"></i> Campus Ambulance Tracker</h1>
-                <p>Please sign in to continue</p>
-            </div>
-
-            <!-- SINGLE MESSAGE SECTION - NO DUPLICATES -->
-            <div th:if="${error}" class="alert-error">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span th:text="${error}">Invalid username or password.</span>
-            </div>
-
-            <div th:if="${message}" class="alert-success">
-                <i class="fas fa-check-circle"></i>
-                <span th:text="${message}"></span>
-            </div>
-
-            <form th:action="@{/login}" method="post">
-                <div class="form-group">
-                    <label class="form-label" for="username"><i class="fas fa-user"></i> Username</label>
-                    <input type="text" id="username" name="username" class="form-input" placeholder="Enter your username" required autofocus>
+    <div class="login-page-wrapper">
+        <!-- Left Side: Welcome Section with 3D Ambulance -->
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1 class="welcome-title">Campus Ambulance Tracker</h1>
+                <p class="welcome-subtitle">
+                    Real-time emergency response system for campus safety and quick medical assistance
+                </p>
+                
+                <!-- 3D Ambulance Animation -->
+                <div class="ambulance-3d">
+                    <div class="ambulance-body"></div>
+                    <div class="ambulance-top"></div>
+                    <div class="ambulance-light"></div>
+                    <div class="wheel wheel-front"></div>
+                    <div class="wheel wheel-back"></div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="password"><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>Instant emergency response</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Real-time ambulance tracking</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Campus-wide safety coverage</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 emergency services</span>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <button type="submit" class="btn-login"><i class="fas fa-sign-in-alt"></i> SIGN IN</button>
-            </form>
+        <!-- Right Side: Login Form -->
+        <div class="login-form-section">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="login-header">
+                        <h1><i class="fas fa-ambulance"></i> Campus Ambulance Tracker</h1>
+                        <p>Please sign in to continue</p>
+                    </div>
 
-            <div class="register-link">
-                Don't have an account? <a th:href="@{/register}">Register here</a>
+                    <!-- SINGLE MESSAGE SECTION - NO DUPLICATES -->
+                    <div th:if="${error}" class="alert-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span th:text="${error}">Invalid username or password.</span>
+                    </div>
+
+                    <div th:if="${message}" class="alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <span th:text="${message}"></span>
+                    </div>
+
+                    <form th:action="@{/login}" method="post">
+                        <div class="form-group">
+                            <label class="form-label" for="username"><i class="fas fa-user"></i> Username</label>
+                            <input type="text" id="username" name="username" class="form-input" placeholder="Enter your username" required autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="password"><i class="fas fa-lock"></i> Password</label>
+                            <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required>
+                        </div>
+
+                        <button type="submit" class="btn-login"><i class="fas fa-sign-in-alt"></i> SIGN IN</button>
+                    </form>
+
+                    <div class="register-link">
+                        Don't have an account? <a th:href="@{/register}">Register here</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

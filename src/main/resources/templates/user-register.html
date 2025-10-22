@@ -285,6 +285,22 @@
             margin-right: 8px;
         }
 
+        .login-link {
+            text-align: center;
+            margin: 20px 0;
+            color: #6c757d;
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 1024px) {
             body {
                 flex-direction: column;
@@ -333,125 +349,509 @@
                 padding: 14px 16px;
             }
         }
+
+        /* NEW ENHANCED STYLES FOR REGISTER PAGE */
+        .register-page-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: center;
+            gap: 60px;
+            padding: 20px;
+        }
+
+        .welcome-section-register {
+            flex: 1;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .welcome-content-register {
+            max-width: 600px;
+        }
+
+        .welcome-title-register {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .welcome-subtitle-register {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .community-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #ffd700;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* 3D Campus Scene */
+        .campus-scene-3d {
+            width: 300px;
+            height: 250px;
+            margin: 30px auto;
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            animation: scene-float 8s ease-in-out infinite;
+        }
+
+        .campus-building {
+            position: absolute;
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+            border-radius: 8px;
+            transform-style: preserve-3d;
+        }
+
+        .building-main {
+            width: 120px;
+            height: 180px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateZ(20px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .building-wing {
+            width: 80px;
+            height: 140px;
+            bottom: 0;
+            background: linear-gradient(135deg, #2d3748, #1a202c);
+        }
+
+        .wing-left {
+            left: 30px;
+            transform: translateZ(10px);
+        }
+
+        .wing-right {
+            right: 30px;
+            transform: translateZ(30px);
+        }
+
+        .building-windows {
+            position: absolute;
+            width: 90%;
+            height: 60%;
+            top: 20%;
+            left: 5%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .window {
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            border-radius: 2px;
+            animation: window-glow 3s infinite alternate;
+        }
+
+        .ambulance-3d-register {
+            width: 80px;
+            height: 40px;
+            background: linear-gradient(135deg, #ffffff, #ff6b6b);
+            border-radius: 5px;
+            position: absolute;
+            bottom: 20px;
+            left: 50px;
+            transform: translateZ(40px);
+            animation: ambulance-drive 15s linear infinite;
+        }
+
+        .ambulance-light-register {
+            width: 8px;
+            height: 8px;
+            background: #ffd700;
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            animation: blink 1s infinite;
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        .campus-ground {
+            width: 280px;
+            height: 20px;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            border-radius: 10px 10px 0 0;
+            transform: translateZ(0px);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .feature-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .register-form-section {
+            flex: 0 0 520px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes scene-float {
+            0%, 100% { transform: translateY(0px) rotateX(5deg); }
+            50% { transform: translateY(-10px) rotateX(8deg); }
+        }
+
+        @keyframes ambulance-drive {
+            0% { left: -100px; transform: translateZ(40px); }
+            50% { left: 200px; transform: translateZ(40px); }
+            51% { transform: translateZ(40px) scaleX(-1); }
+            100% { left: -100px; transform: translateZ(40px) scaleX(-1); }
+        }
+
+        @keyframes window-glow {
+            0%, 70% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .register-page-wrapper {
+                gap: 40px;
+            }
+            
+            .welcome-title-register {
+                font-size: 3rem;
+            }
+            
+            .campus-scene-3d {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .register-page-wrapper {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+            
+            .welcome-section-register {
+                padding: 20px;
+            }
+            
+            .welcome-title-register {
+                font-size: 2.5rem;
+            }
+            
+            .welcome-subtitle-register {
+                font-size: 1.2rem;
+            }
+            
+            .register-form-section {
+                flex: 0 0 auto;
+                width: 100%;
+                max-width: 520px;
+            }
+            
+            .community-stats {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .campus-scene-3d {
+                transform: scale(0.7);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .register-page-wrapper {
+                padding: 10px;
+            }
+            
+            .welcome-title-register {
+                font-size: 2rem;
+            }
+            
+            .campus-scene-3d {
+                transform: scale(0.5);
+            }
+            
+            .stat-item {
+                padding: 15px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <div th:fragment="content">
+        <div class="register-page-wrapper">
+            <!-- Left Side: Welcome Section with 3D Campus Scene -->
+            <div class="welcome-section-register">
+                <div class="welcome-content-register">
+                    <h1 class="welcome-title-register">Join Our Campus Safety Network</h1>
+                    <p class="welcome-subtitle-register">
+                        Register today to become part of our emergency response community and ensure campus-wide safety for everyone
+                    </p>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Campus Ambulance Tracker</h2>
-        <ul>
-            <li><a th:href="@{/}">Dashboard</a></li>
-            <li><a th:href="@{/login}">Login</a></li>
-        </ul>
-    </div>
+                    <!-- Community Statistics -->
+                    <div class="community-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Registered Users</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Emergency Coverage</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2min</div>
+                            <div class="stat-label">Avg Response Time</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Campus Coverage</div>
+                        </div>
+                    </div>
 
-    <!-- Registration Container -->
-    <div class="registration-container">
-        <div class="registration-card">
-            <div class="registration-header">
-                <h1><i class="fas fa-user-plus"></i> User Registration</h1>
-                <p>Register new campus members for emergency services access</p>
+                    <!-- 3D Campus Scene with Ambulance -->
+                    <div class="campus-scene-3d">
+                        <div class="campus-ground"></div>
+                        <div class="campus-building building-main">
+                            <div class="building-windows">
+                                <div class="window"></div><div class="window"></div><div class="window"></div>
+                                <div class="window"></div><div class="window"></div><div class="window"></div>
+                                <div class="window"></div><div class="window"></div><div class="window"></div>
+                                <div class="window"></div><div class="window"></div><div class="window"></div>
+                            </div>
+                        </div>
+                        <div class="campus-building building-wing wing-left"></div>
+                        <div class="campus-building building-wing wing-right"></div>
+                        <div class="ambulance-3d-register">
+                            <div class="ambulance-light-register"></div>
+                        </div>
+                    </div>
+
+                    <!-- Feature Grid -->
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Instant Protection</h4>
+                            <p>24/7 emergency coverage across campus</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-bolt"></i>
+                            <h4>Quick Response</h4>
+                            <p>Fast ambulance dispatch when needed</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h4>Live Tracking</h4>
+                            <p>Real-time ambulance location updates</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-users"></i>
+                            <h4>Community</h4>
+                            <p>Join thousands of protected members</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <form th:action="@{/register}" th:object="${user}" method="post">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label" for="firstName">
-                            <i class="fas fa-user"></i> First Name
-                        </label>
-                        <input type="text" class="form-input" id="firstName" th:field="*{firstName}" 
-                               placeholder="Enter first name" required>
+            <!-- Right Side: Registration Form -->
+            <div class="register-form-section">
+                <div class="registration-container">
+                    <div class="registration-card">
+                        <div class="registration-header">
+                            <h1><i class="fas fa-user-plus"></i> User Registration</h1>
+                            <p>Register new campus members for emergency services access</p>
+                        </div>
+
+                        <form th:action="@{/register}" th:object="${user}" method="post">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="firstName">
+                                        <i class="fas fa-user"></i> First Name
+                                    </label>
+                                    <input type="text" class="form-input" id="firstName" th:field="*{firstName}" 
+                                           placeholder="Enter first name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="lastName">
+                                        <i class="fas fa-user"></i> Last Name
+                                    </label>
+                                    <input type="text" class="form-input" id="lastName" th:field="*{lastName}" 
+                                           placeholder="Enter last name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="email">
+                                    <i class="fas fa-envelope"></i> Email Address
+                                </label>
+                                <input type="email" class="form-input" id="email" th:field="*{email}" 
+                                       placeholder="Enter email address" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="contactNumber">
+                                    <i class="fas fa-phone"></i> Contact Number
+                                </label>
+                                <input type="text" class="form-input" id="contactNumber" th:field="*{contactNumber}" 
+                                       placeholder="Enter contact number" required>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="username">
+                                        <i class="fas fa-user-circle"></i> Username
+                                    </label>
+                                    <input type="text" class="form-input" id="username" th:field="*{username}" 
+                                           placeholder="Choose username" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="password">
+                                        <i class="fas fa-lock"></i> Password
+                                    </label>
+                                    <input type="password" class="form-input" id="password" th:field="*{password}" 
+                                       placeholder="Enter password" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="role">
+                                    <i class="fas fa-id-card"></i> Campus Role
+                                </label>
+                                <select id="role" th:field="*{role}" class="form-select" required>
+                                    <option value="">Select your campus role...</option>
+                                    <option value="STUDENT">Student</option>
+                                    <option value="STAFF">Staff Member</option>
+                                    <option value="SECURITY">Security Personnel</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn-register">
+                                <i class="fas fa-user-check"></i> REGISTER USER
+                            </button>
+                        </form>
+
+                        <!-- Login Link -->
+                        <div class="login-link">
+                            Already have an account? <a th:href="@{/login}">Login here</a>
+                        </div>
+
+                        <a th:href="@{/}" class="btn-cancel">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+
+                        <div class="admin-notice">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Administrator accounts</strong> are managed separately for security purposes.
+                        </div>
+
+                        <div class="role-info">
+                            <h4><i class="fas fa-users"></i> Role Information</h4>
+                            <ul class="role-list">
+                                <li>
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <div><strong>Student:</strong> Campus students requiring emergency medical services</div>
+                                </li>
+                                <li>
+                                    <i class="fas fa-briefcase"></i>
+                                    <div><strong>Staff:</strong> Faculty and administrative staff members</div>
+                                </li>
+                                <li>
+                                    <i class="fas fa-shield-alt"></i>
+                                    <div><strong>Security:</strong> Campus security and safety personnel</div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="lastName">
-                            <i class="fas fa-user"></i> Last Name
-                        </label>
-                        <input type="text" class="form-input" id="lastName" th:field="*{lastName}" 
-                               placeholder="Enter last name">
-                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="email">
-                        <i class="fas fa-envelope"></i> Email Address
-                    </label>
-                    <input type="email" class="form-input" id="email" th:field="*{email}" 
-                           placeholder="Enter email address" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="contactNumber">
-                        <i class="fas fa-phone"></i> Contact Number
-                    </label>
-                    <input type="text" class="form-input" id="contactNumber" th:field="*{contactNumber}" 
-                           placeholder="Enter contact number" required>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label" for="username">
-                            <i class="fas fa-user-circle"></i> Username
-                        </label>
-                        <input type="text" class="form-input" id="username" th:field="*{username}" 
-                               placeholder="Choose username" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="password">
-                            <i class="fas fa-lock"></i> Password
-                        </label>
-                        <input type="password" class="form-input" id="password" th:field="*{password}" 
-                               placeholder="Enter password" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="role">
-                        <i class="fas fa-id-card"></i> Campus Role
-                    </label>
-                    <select id="role" th:field="*{role}" class="form-select" required>
-                        <option value="">Select your campus role...</option>
-                        <option value="STUDENT">Student</option>
-                        <option value="STAFF">Staff Member</option>
-                        <option value="SECURITY">Security Personnel</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn-register">
-                    <i class="fas fa-user-check"></i> REGISTER USER
-                </button>
-            </form>
-
-            <a th:href="@{/}" class="btn-cancel">
-                <i class="fas fa-arrow-left"></i> Back to Dashboard
-            </a>
-
-            <div class="admin-notice">
-                <i class="fas fa-info-circle"></i>
-                <strong>Administrator accounts</strong> are managed separately for security purposes.
-            </div>
-
-            <div class="role-info">
-                <h4><i class="fas fa-users"></i> Role Information</h4>
-                <ul class="role-list">
-                    <li>
-                        <i class="fas fa-graduation-cap"></i>
-                        <div><strong>Student:</strong> Campus students requiring emergency medical services</div>
-                    </li>
-                    <li>
-                        <i class="fas fa-briefcase"></i>
-                        <div><strong>Staff:</strong> Faculty and administrative staff members</div>
-                    </li>
-                    <li>
-                        <i class="fas fa-shield-alt"></i>
-                        <div><strong>Security:</strong> Campus security and safety personnel</div>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
-
 </body>
 </html>
